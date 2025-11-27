@@ -3,8 +3,8 @@ public class Member {
     public static final int MAX_NAME_LENGTH = 25;
     public static final int MAX_ADDRESS_LENGTH = 25;
     public static final int MAX_CITY_LENGTH = 14;
-    public static final int MAX_STATE_LENGTH = 2;
-    public static final int MAX_ZIPCODE_LENGTH = 5;
+    public static final int STATE_LENGTH = 2;
+    public static final int ZIP_CODE_LENGTH = 5;
 
     private String memberNumber; 
     private String name; 
@@ -36,8 +36,11 @@ public class Member {
 
     private boolean isValidInput(String memberNumber, String name, String city, 
         String address, String zipCode, String state){
-            
-            return false;
+            if(isValidNumber(memberNumber, MEMBER_NUMBER_LENGTH) && isValidName(name, MAX_NAME_LENGTH) 
+                    && isValidCity(city, MAX_CITY_LENGTH) && isValidAddress(address, MAX_ADDRESS_LENGTH) 
+                    && isValidZipCode(zipCode, ZIP_CODE_LENGTH) && isValidState(state, STATE_LENGTH)){
+            return true;
+        }
     }
 
     private boolean isValidNumber(String number, int requiredLength){
@@ -45,8 +48,14 @@ public class Member {
             && number.chars().allMatch(Character::isDigit)){
                 return true;
             }
-        else{
-            throw new IllegalArgumentException("Invalid member number");
-        }
+        throw new IllegalArgumentException("Invalid member number.");
+    }
+
+    private boolean isValidName(String name, int maxLength){
+        if(name != null && name.length() == maxLength
+            && name.chars().allMatch(Character::isAlphabetic)){
+                return true;
+            }
+        throw new IllegalArgumentException("Invalid member name.");
     }
 }
