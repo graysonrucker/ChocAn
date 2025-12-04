@@ -1,3 +1,5 @@
+package chocan.model;
+
 public class Provider{
     public static final int PROVIDER_NUMBER_LENGTH = 9;
     public static final int MAX_NAME_LENGTH = 25;

@@ -1,4 +1,4 @@
-package data;
+package chocan.data;
 
 public class MemberRepository {
     
