@@ -26,6 +26,15 @@ public class Provider{
             this.state = state;
     }
 
+    public Provider(Provider provider){
+        this.providerNumber = provider.providerNumber;
+        this.name = provider.name;
+        this.city = provider.city;
+        this.address = provider.address;
+        this.zipCode = provider.zipCode;
+        this.state = provider.state;
+    }
+
     public String getProviderNumber(){
         return providerNumber;
     }
