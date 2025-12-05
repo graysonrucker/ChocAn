@@ -38,6 +38,14 @@ public final class ProviderDirectory {
         return SERVICES.containsKey(serviceCode);
     }
 
+    public static String getNameByCode(String code){
+        return SERVICES.get(code).getName();
+    }
+
+    public static double getFeeByCode(String code){
+        return SERVICES.get(code).getFee();
+    }
+
     public static String getCodeByName(String name){
     for (Service s : SERVICES.values()){
         if (s.getName().equalsIgnoreCase(name)){
