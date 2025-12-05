@@ -15,7 +15,7 @@ public class Member {
     private String zipCode;
     private String state;
 
-        public Member(String memberNumber, String name, String city, 
+    public Member(String memberNumber, String name, String city, 
         String address, String zipCode, String state){
             validateInput(memberNumber, name, city, address, zipCode, state);   
             this.memberNumber = memberNumber;
@@ -24,6 +24,15 @@ public class Member {
             this.address = address;
             this.zipCode = zipCode;
             this.state = state;
+    }
+
+    public Member(Member member){
+        this.memberNumber = member.memberNumber;
+        this.name = member.name;
+        this.city = member.city;
+        this.address = member.address;
+        this.zipCode = member.zipCode;
+        this.state = member.state;
     }
 
     public String getMemberNumber(){
