@@ -25,6 +25,10 @@ public class ChocAnSystem {
         serviceRecordList.add(newServiceRecord);
     }
 
+    public void requestProviderDirectory(){
+        ArrayList<ProviderDirectory.Service> providerDirectoryList = ProviderDirectory.getAllServices();
+    }
+
     public void addMember(Member member){
         String id = member.getMemberNumber();
         if (memberMap.containsKey(id)) {
@@ -71,7 +75,7 @@ public class ChocAnSystem {
         }
     }
 
-    public void providerMember(Provider oldProvider, Provider newProvider){
+    public void updateProvider(Provider oldProvider, Provider newProvider){
         if(!providerMap.containsKey(oldProvider.getProviderNumber())){
             throw new IllegalArgumentException("Provider not found.");
         }
@@ -81,6 +85,79 @@ public class ChocAnSystem {
             providerIds.remove(oldProvider.getProviderNumber());
             providerIds.add(newProvider.getProviderNumber());
         }
+    }
+
+    public ArrayList<MemberReport> generateAllMemberReports(){
+        ArrayList<MemberReport> memberReportList = new ArrayList<>();
+        for(String memberNumber : memberMap.keySet()){
+            MemberReport newReport = generateMemberReport(memberNumber);
+            memberReportList.add(newReport);
+        }
+        return memberReportList;
+    }
+
+    public ArrayList<ProviderReport> generateAllProviderReports(){
+        ArrayList<ProviderReport> providerReportList = new ArrayList<>();
+        for(String providerNumber : providerMap.keySet()){
+            ProviderReport providerReport = generateProviderReport(providerNumber);
+            providerReportList.add(providerReport);
+        }
+        return providerReportList;
+    }
+
+    public SummaryReport generateSummaryReport(){
+        class ProviderAggregate{
+            Provider provider;
+            int totalServices = 0;
+            double totalFee = 0;
+
+            ProviderAggregate(Provider provider){
+                this.provider = provider;
+            }
+        }
+    
+        int numServices = 0;
+        double overallFee = 0;
+        HashMap<String, ProviderAggregate> aggregateByNumber = new HashMap<>();
+
+        for(ServiceRecord serviceRecord : serviceRecordList){
+            double fee = ProviderDirectory.getFeeByCode(serviceRecord.getServiceCode());
+            String providerNumber = serviceRecord.getProviderNumber();
+            Provider provider = new Provider(providerMap.get(providerNumber));
+
+            if(!aggregateByNumber.containsKey(providerNumber)){
+                aggregateByNumber.put(providerNumber, new ProviderAggregate(provider));
+            }
+            aggregateByNumber.get(providerNumber).totalServices++;
+            aggregateByNumber.get(providerNumber).totalFee += fee;
+            numServices++;
+            overallFee += fee;
+        }
+        ArrayList<Provider> providersToPayList = new ArrayList<>();
+        ArrayList<Integer> providerServiceCount = new ArrayList<>();
+        ArrayList<Double> providerTotalFees = new ArrayList<>();
+        int numProviders = aggregateByNumber.size();
+        for(ProviderAggregate aggregate : aggregateByNumber.values()){
+            providersToPayList.add(aggregate.provider);
+            providerServiceCount.add(aggregate.totalServices);
+            providerTotalFees.add(aggregate.totalFee);
+        }
+        return new SummaryReport(providersToPayList, providerServiceCount, providerTotalFees, numProviders, numServices, overallFee);
+    }
+
+    public MemberReport ManagerRequestMember(String memberNumber){
+        MemberReport newReport = generateMemberReport(memberNumber);
+        return newReport;
+    }
+
+    public ProviderReport ManagerRequestProvider(String providerNumber){
+        ProviderReport newReport = generateProviderReport(providerNumber);
+        return newReport;
+    }
+
+    public SummaryReport ManagerRequestSummary(){
+        SummaryReport newReport = generateSummaryReport();
+        return newReport;
     }
 
     private MemberReport generateMemberReport(String memberNumber){
@@ -125,46 +202,5 @@ public class ChocAnSystem {
         }
 
         return new ProviderReport(provider, providerServiceList, totalConsulations, totalFee);
-    }
-
-    private SummaryReport generateSummaryReport(){
-        class ProviderAggregate{
-            Provider provider;
-            int totalServices = 0;
-            double totalFee = 0;
-
-            ProviderAggregate(Provider provider){
-                this.provider = provider;
-            }
-        }
-    
-        int numServices = 0;
-        double overallFee = 0;
-        HashMap<String, ProviderAggregate> aggregateByNumber = new HashMap<>();
-
-        for(ServiceRecord serviceRecord : serviceRecordList){
-            double fee = ProviderDirectory.getFeeByCode(serviceRecord.getServiceCode());
-            String providerNumber = serviceRecord.getProviderNumber();
-            Provider provider = new Provider(providerMap.get(providerNumber));
-
-            if(!aggregateByNumber.containsKey(providerNumber)){
-                aggregateByNumber.put(providerNumber, new ProviderAggregate(provider));
-            }
-            aggregateByNumber.get(providerNumber).totalServices++;
-            aggregateByNumber.get(providerNumber).totalFee += fee;
-            numServices++;
-            overallFee += fee;
-        }
-        ArrayList<Provider> providersToPayList = new ArrayList<>();
-        ArrayList<Integer> providerServiceCount = new ArrayList<>();
-        ArrayList<Double> providerTotalFees = new ArrayList<>();
-        int numProviders = aggregateByNumber.size();
-        for(ProviderAggregate aggregate : aggregateByNumber.values()){
-            providersToPayList.add(aggregate.provider);
-            providerServiceCount.add(aggregate.totalServices);
-            providerTotalFees.add(aggregate.totalFee);
-        }
-        return new SummaryReport(providersToPayList, providerServiceCount, providerTotalFees, numProviders, numServices, overallFee);
-        
     }
 }
