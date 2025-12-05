@@ -15,6 +15,17 @@ public class Provider{
     private String zipCode;
     private String state;
 
+    public Provider(String providerNumber, String name, String city, 
+        String address, String zipCode, String state){
+            validateInput(providerNumber, name, city, address, zipCode, state);   
+            this.providerNumber = providerNumber;
+            this.name = name;
+            this.city = city;
+            this.address = address;
+            this.zipCode = zipCode;
+            this.state = state;
+    }
+
     public String getProviderNumber(){
         return providerNumber;
     }
@@ -68,6 +79,7 @@ public class Provider{
         isValidState(state, STATE_LENGTH);
         this.state = state;
     }
+
     private void validateInput(String providerNumber, String name, String city, 
         String address, String zipCode, String state){
             isValidNumber(providerNumber, PROVIDER_NUMBER_LENGTH);
