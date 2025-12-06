@@ -3,6 +3,7 @@ package chocan.cli;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -135,7 +136,7 @@ public class ProviderMenu {
 
     private boolean isValidDate(String input, DateTimeFormatter formatter){
         try {
-            LocalDateTime.parse(input, formatter);
+            LocalDate.parse(input, formatter);
             return true;
         } catch (DateTimeParseException e) {
             return false;
