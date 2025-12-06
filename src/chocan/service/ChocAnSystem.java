@@ -2,6 +2,7 @@ package chocan.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import chocan.model.*;
 import chocan.report.*;
@@ -9,8 +10,34 @@ import chocan.report.*;
 public class ChocAnSystem {
     private HashMap<String, Member> memberMap = new HashMap<>();
     private HashMap<String, Provider> providerMap = new HashMap<>();
+    private static final Map<String, String> operatorLogins = Map.of(
+        "admin123", "Operator1",
+        "prov555",  "Operator2",
+        "testpass", "Operator3");
+    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager" );
     private ArrayList<String> providerIds = new ArrayList<>();
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
+    
+    public boolean verifyProvider(String providerNumber){
+        if(providerMap.containsKey(providerNumber)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyOperator(String username, String password){
+        if(operatorLogins.get(password) == username){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyManager(String username, String password){
+        if(managerLogins.get(password) == username){
+            return true;
+        }
+        return false;
+    }
 
     public boolean validateMember(String MemberNumber){
         if(memberMap.containsKey(MemberNumber)){
@@ -25,8 +52,9 @@ public class ChocAnSystem {
         serviceRecordList.add(newServiceRecord);
     }
 
-    public void requestProviderDirectory(){
+    public ArrayList<ProviderDirectory.Service> requestProviderDirectory(){
         ArrayList<ProviderDirectory.Service> providerDirectoryList = ProviderDirectory.getAllServices();
+        return providerDirectoryList;
     }
 
     public void addMember(Member member){

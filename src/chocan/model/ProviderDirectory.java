@@ -1,5 +1,6 @@
 package chocan.model;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public final class ProviderDirectory {
@@ -47,11 +48,15 @@ public final class ProviderDirectory {
     }
 
     public static String getCodeByName(String name){
-    for (Service s : SERVICES.values()){
-        if (s.getName().equalsIgnoreCase(name)){
-            return s.getCode();
+        for (Service s : SERVICES.values()){
+            if (s.getName().equalsIgnoreCase(name)){
+                return s.getCode();
+            }
         }
-    }
         return null;
+    }
+
+    public static ArrayList<Service> getAllServices(){
+        return new ArrayList<>(SERVICES.values());
     }
 }
