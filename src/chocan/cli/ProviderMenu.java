@@ -30,7 +30,6 @@ public class ProviderMenu {
     {
         DateTimeFormatter currDateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        boolean validDate = false;
         String command = "";
         String exit = "exit";
         outerLoop:
@@ -39,6 +38,8 @@ public class ProviderMenu {
             
             System.out.println("Please enter member number (or type <exit> to logout)");
             command = br.readLine();
+
+            if(command.equals(exit))
             
             if(!system.validateMember(command)) {
                 System.out.println("Member number is Invalid, please try again.");         
@@ -53,6 +54,7 @@ public class ProviderMenu {
             {
             switch (command) {
                 case ("Y"):
+                    boolean validDate = false;
                     String dateOfService = "";
                     String serviceCode = "";
                     String comment = "";
@@ -97,6 +99,11 @@ public class ProviderMenu {
                                 validCode = true;
                                 System.out.println("Please enter any service comments (100 character limit)");
                                 comment = br.readLine();
+                                System.out.println("Creating service record.");
+
+                                LocalDateTime nowDateTime = LocalDateTime.now();
+                                String currDateTime = nowDateTime.format(currDateTimeFormatter);
+                                system.addServiceRecord(currDateTime, dateOfService, providerNumber, memberNumber, serviceCode, comment);
                                 break;
                             case ("N"):
                                 break;
@@ -106,11 +113,6 @@ public class ProviderMenu {
                                 System.out.println("Unrecognized command.");
                                 break;
                         }
-                        System.out.println("Creating service record.");
-
-                        LocalDateTime nowDateTime = LocalDateTime.now();
-                        String currDateTime = nowDateTime.format(currDateTimeFormatter);
-                        system.addServiceRecord(currDateTime, dateOfService, providerNumber, memberNumber, serviceCode, comment);
                     }
                     break;
                 case ("N"):

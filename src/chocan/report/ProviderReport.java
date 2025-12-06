@@ -8,14 +8,14 @@ public class ProviderReport{
 
     private Provider provider;
     private ArrayList<ProviderServiceSummary> providerServiceList = new ArrayList<>();
-    private int totalConsulations;
+    private int totalConsultations;
     private double totalFee;
 
     public ProviderReport(Provider provider, ArrayList<ProviderServiceSummary> providerServiceList,
-                            int totalConsulations, double totalFee){
+                            int totalConsultations, double totalFee){
         this.provider = new Provider(provider);
         this.providerServiceList = new ArrayList<ProviderServiceSummary>(providerServiceList);
-        this.totalConsulations = totalConsulations;
+        this.totalConsultations = totalConsultations;
         this.totalFee = totalFee;
     }
 
@@ -27,8 +27,8 @@ public class ProviderReport{
         return new ArrayList<ProviderServiceSummary>(providerServiceList);
     }
 
-    public int getTotalConsulations(){
-        return totalConsulations;
+    public int gettotalConsultations(){
+        return totalConsultations;
     }
 
     public double getTotalFee(){

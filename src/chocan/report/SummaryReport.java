@@ -1,7 +1,6 @@
 package chocan.report;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import chocan.model.Provider;
 

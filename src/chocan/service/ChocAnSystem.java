@@ -6,7 +6,7 @@ import java.util.Map;
 
 import chocan.model.*;
 import chocan.report.*;
-
+//Grayson
 public class ChocAnSystem {
     private HashMap<String, Member> memberMap = new HashMap<>();
     private HashMap<String, Provider> providerMap = new HashMap<>();
@@ -210,7 +210,7 @@ public class ChocAnSystem {
     private ProviderReport generateProviderReport(String providerNumber){
         Provider provider = new Provider(providerMap.get(providerNumber));
         ArrayList<ProviderServiceSummary> providerServiceList = new ArrayList<>();
-        int totalConsulations = 0;
+        int totalConsultations = 0;
         double totalFee = 0;
         for(ServiceRecord serviceRecord : serviceRecordList){
             if(providerNumber == serviceRecord.getProviderNumber()){
@@ -221,7 +221,7 @@ public class ChocAnSystem {
                 String serviceCode = serviceRecord.getServiceCode();
                 double fee = ProviderDirectory.getFeeByCode(serviceCode);
 
-                totalConsulations++;
+                totalConsultations++;
                 totalFee += fee;
 
                 ProviderServiceSummary providerServiceSummary = new ProviderServiceSummary(dateOfService, dateTimeReceived, memberName, memberNumber, serviceCode, fee);
@@ -229,6 +229,6 @@ public class ChocAnSystem {
             }
         }
 
-        return new ProviderReport(provider, providerServiceList, totalConsulations, totalFee);
+        return new ProviderReport(provider, providerServiceList, totalConsultations, totalFee);
     }
 }
