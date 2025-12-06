@@ -24,15 +24,15 @@ public class SummaryReport{
         this.overallFee = overallFee;
     }
 
-    public List<Provider> getProvidersToPay() {
+    public ArrayList<Provider> getProvidersToPay() {
         return new ArrayList<>(providersToPay);
     }
 
-    public List<Integer> getProviderServiceCount() {
+    public ArrayList<Integer> getProviderServiceCount() {
         return new ArrayList<>(providerServiceCount);
     }
 
-    public List<Double> getProviderTotalFees() {
+    public ArrayList<Double> getProviderTotalFees() {
         return new ArrayList<>(providerTotalFees);
     }
 

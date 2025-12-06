@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import chocan.service.ChocAnSystem;
-import chocan.cli.MainMenu;
 //Owen Taylor
 public class ProviderMenu {
-    private String providerNumber;
+    private final ChocAnSystem system;
+    String providerNumber;
 
-    public ProviderMenu(String providerNumber) 
+    public ProviderMenu(ChocAnSystem system) 
     {
-        this.providerNumber = providerNumber;
+        this.system = system;
         try {
             MenuStart();
         }
@@ -23,20 +23,21 @@ public class ProviderMenu {
 
     public void MenuStart() throws IOException 
     {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        System.out.println("Please enter member number:");
-        String membernumber = br.readLine();
-        
-        if(!MainMenu.chocSystem.validateMember(membernumber)) {
-            System.out.println("Invalid credentials");         
-            return;   
+        String command = "";
+        while(command != "exit"){
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            
+            System.out.println("Please enter member number:");
+            String membernumber = br.readLine();
+            
+            if(!system.validateMember(membernumber)) {
+                System.out.println("Invalid credentials");         
+                continue;
+            }
+
+            System.out.println("Add Service with service number:");
+            
+            String serviceNumber = br.readLine();
         }
-
-        System.out.println("Add Service with service number:");
-        
-        String serviceNumber = br.readLine();
-
-
     }
 }
