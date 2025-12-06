@@ -2,15 +2,42 @@ package chocan.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import chocan.model.*;
 import chocan.report.*;
-
+//Grayson
 public class ChocAnSystem {
     private HashMap<String, Member> memberMap = new HashMap<>();
     private HashMap<String, Provider> providerMap = new HashMap<>();
+    private static final Map<String, String> operatorLogins = Map.of(
+        "admin123", "Operator1",
+        "prov555",  "Operator2",
+        "testpass", "Operator3");
+    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager");
     private ArrayList<String> providerIds = new ArrayList<>();
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
+    
+    public boolean verifyProvider(String providerNumber){
+        if(providerMap.containsKey(providerNumber)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyOperator(String username, String password){
+        if(operatorLogins.get(password).equals(username)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyManager(String username, String password){
+        if(managerLogins.get(password).equals(username)){
+            return true;
+        }
+        return false;
+    }
 
     public boolean validateMember(String MemberNumber){
         if(memberMap.containsKey(MemberNumber)){
@@ -20,9 +47,14 @@ public class ChocAnSystem {
     }
 
     public void addServiceRecord(String currDateAndTime, String dateOfService, String providerNumber,
-                            String memberNumber, String serviceCode){
-        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode);
+                            String memberNumber, String serviceCode, String comment){
+        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode, comment);
         serviceRecordList.add(newServiceRecord);
+    }
+
+    public ArrayList<ProviderDirectory.Service> requestProviderDirectory(){
+        ArrayList<ProviderDirectory.Service> providerDirectoryList = ProviderDirectory.getAllServices();
+        return providerDirectoryList;
     }
 
     public void addMember(Member member){
@@ -71,7 +103,7 @@ public class ChocAnSystem {
         }
     }
 
-    public void providerMember(Provider oldProvider, Provider newProvider){
+    public void updateProvider(Provider oldProvider, Provider newProvider){
         if(!providerMap.containsKey(oldProvider.getProviderNumber())){
             throw new IllegalArgumentException("Provider not found.");
         }
@@ -83,51 +115,25 @@ public class ChocAnSystem {
         }
     }
 
-    private MemberReport generateMemberReport(String memberNumber){
-        Member member = new Member(memberMap.get(memberNumber));
-        ArrayList<MemberServiceSummary> memberServiceList = new ArrayList<>();
-        for(ServiceRecord serviceRecord : serviceRecordList){
-            if(memberNumber == serviceRecord.getMemberNumber()){
-                String serviceCode = serviceRecord.getServiceCode();
-                String providerNumber = serviceRecord.getProviderNumber();
-
-                String dateOfService = serviceRecord.getDateOfService();
-                String providerName = providerMap.get(providerNumber).getName();
-                String serviceName = ProviderDirectory.getNameByCode(serviceCode);
-
-                MemberServiceSummary memberServiceSummary = new MemberServiceSummary(dateOfService, providerName, serviceName);
-                memberServiceList.add(memberServiceSummary);
-            }
+    public ArrayList<MemberReport> generateAllMemberReports(){
+        ArrayList<MemberReport> memberReportList = new ArrayList<>();
+        for(String memberNumber : memberMap.keySet()){
+            MemberReport newReport = generateMemberReport(memberNumber);
+            memberReportList.add(newReport);
         }
-        return new MemberReport(member, memberServiceList);
+        return memberReportList;
     }
 
-    private ProviderReport generateProviderReport(String providerNumber){
-        Provider provider = new Provider(providerMap.get(providerNumber));
-        ArrayList<ProviderServiceSummary> providerServiceList = new ArrayList<>();
-        int totalConsulations = 0;
-        double totalFee = 0;
-        for(ServiceRecord serviceRecord : serviceRecordList){
-            if(providerNumber == serviceRecord.getProviderNumber()){
-                String dateOfService = serviceRecord.getDateOfService();
-                String dateTimeReceived = serviceRecord.getCurrDateAndTime();
-                String memberNumber = serviceRecord.getMemberNumber();
-                String memberName = memberMap.get(memberNumber).getName();
-                String serviceCode = serviceRecord.getServiceCode();
-                double fee = ProviderDirectory.getFeeByCode(serviceCode);
-
-                totalConsulations++;
-                totalFee += fee;
-
-                ProviderServiceSummary providerServiceSummary = new ProviderServiceSummary(dateOfService, dateTimeReceived, memberName, memberNumber, serviceCode, fee);
-                providerServiceList.add(providerServiceSummary);
-            }
+    public ArrayList<ProviderReport> generateAllProviderReports(){
+        ArrayList<ProviderReport> providerReportList = new ArrayList<>();
+        for(String providerNumber : providerMap.keySet()){
+            ProviderReport providerReport = generateProviderReport(providerNumber);
+            providerReportList.add(providerReport);
         }
-
-        return new ProviderReport(provider, providerServiceList, totalConsulations, totalFee);
+        return providerReportList;
     }
 
-    private SummaryReport generateSummaryReport(){
+    public SummaryReport generateSummaryReport(){
         class ProviderAggregate{
             Provider provider;
             int totalServices = 0;
@@ -165,6 +171,64 @@ public class ChocAnSystem {
             providerTotalFees.add(aggregate.totalFee);
         }
         return new SummaryReport(providersToPayList, providerServiceCount, providerTotalFees, numProviders, numServices, overallFee);
-        
+    }
+
+    public MemberReport ManagerRequestMember(String memberNumber){
+        MemberReport newReport = generateMemberReport(memberNumber);
+        return newReport;
+    }
+
+    public ProviderReport ManagerRequestProvider(String providerNumber){
+        ProviderReport newReport = generateProviderReport(providerNumber);
+        return newReport;
+    }
+
+    public SummaryReport ManagerRequestSummary(){
+        SummaryReport newReport = generateSummaryReport();
+        return newReport;
+    }
+
+    private MemberReport generateMemberReport(String memberNumber){
+        Member member = new Member(memberMap.get(memberNumber));
+        ArrayList<MemberServiceSummary> memberServiceList = new ArrayList<>();
+        for(ServiceRecord serviceRecord : serviceRecordList){
+            if(memberNumber == serviceRecord.getMemberNumber()){
+                String serviceCode = serviceRecord.getServiceCode();
+                String providerNumber = serviceRecord.getProviderNumber();
+
+                String dateOfService = serviceRecord.getDateOfService();
+                String providerName = providerMap.get(providerNumber).getName();
+                String serviceName = ProviderDirectory.getNameByCode(serviceCode);
+
+                MemberServiceSummary memberServiceSummary = new MemberServiceSummary(dateOfService, providerName, serviceName);
+                memberServiceList.add(memberServiceSummary);
+            }
+        }
+        return new MemberReport(member, memberServiceList);
+    }
+
+    private ProviderReport generateProviderReport(String providerNumber){
+        Provider provider = new Provider(providerMap.get(providerNumber));
+        ArrayList<ProviderServiceSummary> providerServiceList = new ArrayList<>();
+        int totalConsultations = 0;
+        double totalFee = 0;
+        for(ServiceRecord serviceRecord : serviceRecordList){
+            if(providerNumber == serviceRecord.getProviderNumber()){
+                String dateOfService = serviceRecord.getDateOfService();
+                String dateTimeReceived = serviceRecord.getCurrDateAndTime();
+                String memberNumber = serviceRecord.getMemberNumber();
+                String memberName = memberMap.get(memberNumber).getName();
+                String serviceCode = serviceRecord.getServiceCode();
+                double fee = ProviderDirectory.getFeeByCode(serviceCode);
+
+                totalConsultations++;
+                totalFee += fee;
+
+                ProviderServiceSummary providerServiceSummary = new ProviderServiceSummary(dateOfService, dateTimeReceived, memberName, memberNumber, serviceCode, fee);
+                providerServiceList.add(providerServiceSummary);
+            }
+        }
+
+        return new ProviderReport(provider, providerServiceList, totalConsultations, totalFee);
     }
 }

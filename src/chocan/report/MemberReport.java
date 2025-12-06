@@ -3,7 +3,7 @@ package chocan.report;
 import java.util.ArrayList;
 
 import chocan.model.Member;
-
+//Grayson
 public class MemberReport {
 
     private Member member;

@@ -26,7 +26,7 @@ public class ProviderServiceSummary{
         return dateTimeReceived;
     }
 
-    public String memberName(){
+    public String getMemberName(){
         return memberName;
     }
 
