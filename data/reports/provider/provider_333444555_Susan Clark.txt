@@ -1,0 +1,14 @@
+Provider Report
+==========================
+Provider Name:   Susan Clark
+Provider Number: 333444555
+Address:         Huntsville
+City:            gtr
+State:           AL
+ZIP Code:        35801
+
+Services Provided:
+--------------------------
+
+==========================
+End of Provider Report

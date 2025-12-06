@@ -38,7 +38,7 @@ public class ManagerMenu {
                 ProviderReport report = system.ManagerRequestProvider(pnumber);
 
                 PrintProviderReport(report);
-
+                break;
             case "S":
                 PrintSummaryReport();
                 break;
@@ -62,20 +62,20 @@ public class ManagerMenu {
 
         Provider provider = report.getProvider();
 
-        System.out.println(provider.getProviderNumber());
-        System.out.println(provider.getName());
-        System.out.println(provider.getAddress());
-        System.out.println(provider.getCity());
-        System.out.println(provider.getState());
-        System.out.println(provider.getZipCode());
+        System.out.println("\t" + provider.getProviderNumber());
+        System.out.println("\t" + provider.getName());
+        System.out.println("\t" + provider.getAddress());
+        System.out.println("\t" + provider.getCity());
+        System.out.println("\t" + provider.getState());
+        System.out.println("\t" + provider.getZipCode());
 
         for(ProviderServiceSummary services : report.getProviderServiceList()){
             System.out.println(services.getServiceDate());
-            System.out.println(services.getDateTimeReceived());
-            System.out.println(services.getMemberName());
-            System.out.println(services.getMemberNumber());
-            System.out.println(services.getServiceCode());
-            System.out.println(services.getFee());
+            System.out.println("\t" + services.getDateTimeReceived());
+            System.out.println("\t" + services.getMemberName());
+            System.out.println("\t" + services.getMemberNumber());
+            System.out.println("\t" + services.getServiceCode());
+            System.out.println("\t" + services.getFee());
         }
     }
 
@@ -134,17 +134,17 @@ public class ManagerMenu {
 
         Member member = report.getMember();
 
-        System.out.println(member.getMemberNumber());
-        System.out.println(member.getName());
-        System.out.println(member.getAddress());
-        System.out.println(member.getCity());
-        System.out.println(member.getState());
-        System.out.println(member.getZipCode());
+        System.out.println("\t" + member.getMemberNumber());
+        System.out.println("\t" + member.getName());
+        System.out.println("\t" + member.getAddress());
+        System.out.println("\t" + member.getCity());
+        System.out.println("\t" + member.getState());
+        System.out.println("\t" + member.getZipCode());
 
         for(MemberServiceSummary services : report.getMemberServiceList()){
-            System.out.println(services.getDateOfService());
-            System.out.println(services.getProviderName());
-            System.out.println(services.getServiceName());
+            System.out.println("\t" + services.getDateOfService());
+            System.out.println("\t" + services.getProviderName());
+            System.out.println("\t" + services.getServiceName());
         }
     }
 }

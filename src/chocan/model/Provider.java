@@ -107,15 +107,13 @@ public class Provider{
     }
 
     private void isValidName(String name, int maxLength){
-        if(name == null || name.length() > maxLength
-            || !name.chars().allMatch(Character::isAlphabetic)){
+        if(name == null || name.length() > maxLength){
             throw new IllegalArgumentException("Invalid provider name.");
         }
     }
 
     private void isValidCity(String city, int maxLength){
-        if(city == null || city.length() > maxLength
-            || !city.chars().allMatch(Character::isAlphabetic)){
+        if(city == null || city.length() > maxLength){
                 throw new IllegalArgumentException("Invalid provider city.");
         }
     }
@@ -127,15 +125,14 @@ public class Provider{
     }
 
     private void isValidZipCode(String zipCode, int requiredLength){
-        if(zipCode == null || zipCode.length() > requiredLength
+        if(zipCode == null || zipCode.length() != requiredLength
             || !zipCode.chars().allMatch(Character::isDigit)){
             throw new IllegalArgumentException("Invalid provider zipcode.");
         }
     }
 
     private void isValidState(String state, int requiredLength){
-        if(state == null || state.length() != requiredLength
-            || !state.chars().allMatch(Character::isAlphabetic)){
+        if(state == null || state.length() != requiredLength){
             throw new IllegalArgumentException("Invalid provider state.");
         }
     }

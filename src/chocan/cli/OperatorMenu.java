@@ -24,7 +24,8 @@ public class OperatorMenu {
             
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             command = br.readLine();
-            command = br.readLine();
+            
+            
             
 
             switch (command) {
