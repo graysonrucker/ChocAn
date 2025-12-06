@@ -26,7 +26,7 @@ public class ChocAnSystem {
     }
 
     public boolean verifyOperator(String username, String password){
-        if(operatorLogins.get(password) == username){
+        if(operatorLogins.get(password).equals(username)){
             return true;
         }
         return false;
