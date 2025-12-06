@@ -14,7 +14,7 @@ public class ChocAnSystem {
         "admin123", "Operator1",
         "prov555",  "Operator2",
         "testpass", "Operator3");
-    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager" );
+    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager");
     private ArrayList<String> providerIds = new ArrayList<>();
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
     
@@ -33,7 +33,7 @@ public class ChocAnSystem {
     }
 
     public boolean verifyManager(String username, String password){
-        if(managerLogins.get(password) == username){
+        if(managerLogins.get(password).equals(username)){
             return true;
         }
         return false;
