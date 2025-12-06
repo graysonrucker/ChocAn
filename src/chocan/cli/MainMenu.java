@@ -112,7 +112,7 @@ public class MainMenu {
                     password = br.readLine();
                     if(system.verifyManager(username, password)) {
                         ManagerMenu MMenu = new ManagerMenu(system);
-                        MMenu.MenuStart();
+                        MMenu.start();
                     }
                     else {
                         System.out.println("Invalid credentials");
