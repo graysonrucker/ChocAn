@@ -7,14 +7,11 @@ import java.io.InputStreamReader;
 import chocan.service.ChocAnSystem;
 //Owen Taylor
 public class ManagerMenu {
-    private String username;
-    private String password;
+    private final ChocAnSystem system;
 
-
-    public ManagerMenu(String username, String password) 
+    public ManagerMenu(ChocAnSystem system) 
     {
-        this.username = username;
-        this.password = password;
+        this.system = system;
     }
 
     public void MenuStart() throws IOException 
