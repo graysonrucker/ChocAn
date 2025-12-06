@@ -47,8 +47,8 @@ public class ChocAnSystem {
     }
 
     public void addServiceRecord(String currDateAndTime, String dateOfService, String providerNumber,
-                            String memberNumber, String serviceCode){
-        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode);
+                            String memberNumber, String serviceCode, String comment){
+        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode, comment);
         serviceRecordList.add(newServiceRecord);
     }
 

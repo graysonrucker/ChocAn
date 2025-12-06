@@ -71,6 +71,7 @@ public class MainMenu {
             }
             System.out.println();
 
+            writeSummaryReport(summaryDir, summaryReport);
             ArrayList<Provider> providersToPay  = new ArrayList<Provider>(summaryReport.getProvidersToPay());
             ArrayList<Integer> providerServiceCount = new ArrayList<Integer>(summaryReport.getProviderServiceCount());
             ArrayList<Double> providerTotalFees = new ArrayList<Double>(summaryReport.getProviderTotalFees());
@@ -104,7 +105,7 @@ public class MainMenu {
                     System.out.println("Enter provider number");
                     String providerNumber = br.readLine();
                     if(system.verifyProvider(providerNumber)) {
-                        ProviderMenu PMenu = new ProviderMenu(system);
+                        ProviderMenu PMenu = new ProviderMenu(system, providerNumber);
                         PMenu.MenuStart();
                     }
                     else{

@@ -20,14 +20,14 @@ public class ServiceRecord {
     private String comment; //optional
 
     public ServiceRecord(String currDateAndTime, String dateOfService, String providerNumber,
-                                String memberNumber, String serviceCode){
+                                String memberNumber, String serviceCode, String comment){
         isValidServiceCode(serviceCode, SERVICE_CODE_LENGTH);
         this.currDateAndTime = LocalDateTime.parse(currDateAndTime, DATE_TIME_FMT);
         this.dateOfService = LocalDate.parse(dateOfService, DATE_FMT);
         this.providerNumber = providerNumber;
         this.memberNumber = memberNumber;
         this.serviceCode = serviceCode;
-        this.comment = (comment == null ? "" : comment);
+        this.comment = comment;
     }
 
     public String getCurrDateAndTime(){
@@ -48,6 +48,10 @@ public class ServiceRecord {
 
     public String getServiceCode(){
         return serviceCode;
+    }
+
+    public String getComment(){
+        return comment;
     }
 
     public void setCurrDateAndTime(String currDateAndTime){
