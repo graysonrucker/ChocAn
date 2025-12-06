@@ -121,21 +121,21 @@ public class Member {
     }
 
     private void isValidAddress(String address, int maxLength){
-        if(address == null || city.length() > maxLength){
+        if(address == null || address.length() > maxLength){
                 throw new IllegalArgumentException("Invalid member address");
         }
     }
 
     private void isValidZipCode(String zipCode, int requiredLength){
         if(zipCode == null || zipCode.length() > requiredLength
-            || !name.chars().allMatch(Character::isDigit)){
+            || !zipCode.chars().allMatch(Character::isDigit)){
             throw new IllegalArgumentException("Invalid member zipcode.");
         }
     }
 
     private void isValidState(String state, int requiredLength){
-        if(zipCode == null || zipCode.length() != requiredLength
-            || !name.chars().allMatch(Character::isAlphabetic)){
+        if(state == null || state.length() != requiredLength
+            || !state.chars().allMatch(Character::isAlphabetic)){
             throw new IllegalArgumentException("Invalid member state.");
         }
     }
