@@ -2,7 +2,7 @@ package chocan.model;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-
+//Tyler Druskov
 public class ServiceRecord {
     private static final DateTimeFormatter DATE_TIME_FMT =
             DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");

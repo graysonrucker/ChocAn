@@ -1,5 +1,5 @@
 package chocan.model;
-
+//Mark Winters
 public class Member {
     public static final int MEMBER_NUMBER_LENGTH = 9;
     public static final int MAX_NAME_LENGTH = 25;

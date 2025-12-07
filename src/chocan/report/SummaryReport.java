@@ -3,7 +3,7 @@ package chocan.report;
 import java.util.ArrayList;
 
 import chocan.model.Provider;
-
+//Brooke Shaw
 public class SummaryReport{
     private ArrayList<Provider> providersToPay = new ArrayList<>();
     private ArrayList<Integer> providerServiceCount = new ArrayList<>();

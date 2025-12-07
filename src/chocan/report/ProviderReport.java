@@ -3,7 +3,7 @@ package chocan.report;
 import java.util.ArrayList;
 
 import chocan.model.Provider;
-
+//Brooke Shaw
 public class ProviderReport{
 
     private Provider provider;
