@@ -148,6 +148,7 @@ public class MainMenu {
                     break;
             }
         }
+        system.saveData("data/");
     }
 
     private void writeMemberReport(Path reportsDir, MemberReport report) throws IOException {

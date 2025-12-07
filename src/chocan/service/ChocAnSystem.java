@@ -1,5 +1,13 @@
 package chocan.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -282,4 +290,124 @@ public class ChocAnSystem {
 
         return new ProviderReport(provider, providerServiceList, totalConsultations, totalFee);
     }
+
+    public void loadData(String basePath) throws IOException {
+        memberMap = loadMembers(basePath + "/members.txt");
+        providerMap = loadProviders(basePath + "/providers.txt");
+        serviceRecordList = loadServiceRecords(basePath + "/services.txt");
+    }
+
+    private HashMap<String, Member> loadMembers(String filePath) throws IOException {
+        HashMap<String, Member> map = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] a = line.split("\\|");
+                if (a.length != 6) continue; // skip malformed
+
+                Member m = new Member(a[0], a[1], a[2], a[3], a[4], a[5]);
+                map.put(a[0], m);
+            }
+        }
+        return map;
+    }
+
+    private HashMap<String, Provider> loadProviders(String filePath) throws IOException {
+        HashMap<String, Provider> map = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] a = line.split("\\|");
+                if (a.length != 6) continue;
+
+                Provider p = new Provider(a[0], a[1], a[2], a[3], a[4], a[5]);
+                map.put(a[0], p);
+            }
+        }
+        return map;
+    }
+
+    private ArrayList<ServiceRecord> loadServiceRecords(String filePath) throws IOException {
+        ArrayList<ServiceRecord> list = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] a = line.split("\\|");
+                if (a.length < 6) continue;
+
+                ServiceRecord sr = new ServiceRecord(
+                    a[0],
+                    a[1],
+                    a[2],            // providerNumber
+                    a[3],            // memberNumber
+                    a[4],            // serviceCode
+                    a[5]             // comments
+                );
+
+                list.add(sr);
+            }
+        }
+
+        return list;
+    }
+
+
+    public void saveData(String basePath) throws IOException {
+        saveMembers(basePath + "/members.txt");
+        saveProviders(basePath + "/providers.txt");
+        saveServiceRecords(basePath + "/services.txt");
+    }
+
+    private void saveMembers(String filePath) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Member m : memberMap.values()) {
+                bw.write(String.join("|",
+                    m.getMemberNumber(),
+                    m.getName(),
+                    m.getAddress(),
+                    m.getCity(),
+                    m.getState(),
+                    m.getZipCode()
+                ));
+                bw.newLine();
+            }
+        }
+    }
+
+    private void saveProviders(String filePath) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Provider p : providerMap.values()) {
+                bw.write(String.join("|",
+                    p.getProviderNumber(),
+                    p.getName(),
+                    p.getAddress(),
+                    p.getCity(),
+                    p.getState(),
+                    p.getZipCode()
+                ));
+                bw.newLine();
+            }
+        }
+    }
+
+    private void saveServiceRecords(String filePath) throws IOException {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (ServiceRecord sr : serviceRecordList) {
+                bw.write(String.join("|",
+                    sr.getCurrDateAndTime(),
+                    sr.getDateOfService(),
+                    sr.getProviderNumber(),
+                    sr.getMemberNumber(),
+                    sr.getServiceCode(),
+                    sr.getComment() == null ? "" : sr.getComment()
+                ));
+                bw.newLine();
+            }
+        }
+    }
+
 }
