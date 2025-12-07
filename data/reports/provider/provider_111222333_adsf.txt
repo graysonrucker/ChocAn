@@ -1,11 +1,11 @@
 Provider Report
 ==========================
-Provider Name:   Susan Clark
-Provider Number: 333444555
-Address:         Huntsville
-City:            gtr
+Provider Name:   adsf
+Provider Number: 111222333
+Address:         apdsofij
+City:            asdpfo
 State:           AL
-ZIP Code:        13523
+ZIP Code:        12345
 
 Services Provided:
 --------------------------

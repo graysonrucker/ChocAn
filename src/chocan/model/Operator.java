@@ -1,5 +1,5 @@
 package chocan.model;
-//Tyler Druskov
+//Tyler Druskoff
 public class Operator{
     private String username;
     private String password;

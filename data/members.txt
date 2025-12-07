@@ -1,3 +1,1 @@
-123456789|John Doe|Tuscaloosa|abc|AL|35451
-987654321|Jane Smith|Birmingham|bcd|AL|35203
-555666777|Bob Johnson|Huntsville|cde|AL|35232
+123456789|John Doe|Northport|244 East Drive|24143|AL

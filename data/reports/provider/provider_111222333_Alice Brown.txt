@@ -5,7 +5,7 @@ Provider Number: 111222333
 Address:         Tuscaloosa
 City:            fwe
 State:           AL
-ZIP Code:        35401
+ZIP Code:        24523
 
 Services Provided:
 --------------------------

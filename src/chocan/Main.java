@@ -7,8 +7,14 @@ import chocan.service.ChocAnSystem;
 //Owen Taylor
 public class Main{
     public static void main(String[] args){
-        ChocAnSystem chocSystem = new ChocAnSystem();
-        MainMenu mainMenu = new MainMenu(chocSystem);
+        ChocAnSystem system = new ChocAnSystem();
+        try {
+        system.loadData("data");   // <--- RIGHT HERE
+        } catch (IOException e) {
+            System.out.println("Warning: Could not load data.");
+        }
+
+        MainMenu mainMenu = new MainMenu(system);
          try {
             mainMenu.start();
         }

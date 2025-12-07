@@ -5,76 +5,21 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import chocan.model.*;
 import chocan.report.*;
-//Grayson
+//Grayson Rucker
 public class ChocAnSystem {
-    private HashMap<String, Member> memberMap = new HashMap<>() {{
-            put("123456789", new Member(
-                    "123456789",
-                    "John Doe",
-                    "abc",
-                    "Tuscaloosa",
-                    "35451",
-                    "AL"
-                    
-            ));
-            put("987654321", new Member(
-                    "987654321",
-                    "Jane Smith",
-                    "bcd",
-                    "Birmingham",
-                    "35203",
-                    "AL"
-            ));
-            put("555666777", new Member(
-                    "555666777",
-                    "Bob Johnson",
-                    "cde",
-                    "Huntsville",
-                    "35232",
-                    "AL"
-            ));
-        }};
-    private HashMap<String, Provider> providerMap = new HashMap<>() {{
-        put("111222333", new Provider(
-                "111222333",
-                "Alice Brown",
-                "fwe",
-                "Tuscaloosa",
-                "35401",
-                "AL"
-        ));
-        put("222333444", new Provider(
-                "222333444",
-                "Mark Wilson",
-                "wef",
-                "Birmingham",
-                "35203",
-                "AL"
-        ));
-        put("333444555", new Provider(
-                "333444555",
-                "Susan Clark",
-                "gtr",
-                "Huntsville",
-                "35801",
-                "AL"
-        ));
-    }};
+    private HashMap<String, Member> memberMap = new HashMap<>();
+    private HashMap<String, Provider> providerMap = new HashMap<>();
     private static final Map<String, String> operatorLogins = Map.of(
         "admin123", "Operator1",
         "prov555",  "Operator2",
         "testpass", "Operator3");
-    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager");
-    private ArrayList<String> providerIds = new ArrayList<>();
+    private static final Map<String, String> managerLogins = Map.of("password123", "manager");
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
     
     public boolean verifyProvider(String providerNumber){
@@ -124,22 +69,20 @@ public class ChocAnSystem {
         memberMap.put(id, member);
     }
 
-    public void deleteMember(Member member){
-        String id = member.getMemberNumber();
-        if(memberMap.containsKey(member.getMemberNumber())){
-            memberMap.remove(id, member);
+    public void deleteMember(String id ){
+        if(memberMap.containsKey(id)){
+            memberMap.remove(id);
         }
         else{
             throw new IllegalArgumentException("Member not found.");
         }
     }
 
-    public void updateMember(Member oldMember, Member newMember){
-        if(!memberMap.containsKey(oldMember.getMemberNumber())){
-            throw new IllegalArgumentException("Member not found.");
-        }
-        memberMap.remove(oldMember.getMemberNumber(), oldMember);
-        memberMap.put(newMember.getMemberNumber(), newMember);
+    public void updateMember(Member newMember){
+    if(!memberMap.containsKey(newMember.getMemberNumber())){
+        throw new IllegalArgumentException("Member not found.");
+    }
+        memberMap.replace(newMember.getMemberNumber(), newMember);
     }
 
     public void addProvider(Provider provider){
@@ -148,30 +91,22 @@ public class ChocAnSystem {
             throw new IllegalArgumentException("Provider ID already exists: " + id);
         }
         providerMap.put(id, provider);
-        providerIds.add(id);
     }
 
-    public void deleteProvider(Provider provider){
-        String id = provider.getProviderNumber();
-        if(providerMap.containsKey(provider.getProviderNumber())){
-            providerMap.remove(id, provider);
-            providerIds.remove(id);
+    public void deleteProvider(String id){
+        if(providerMap.containsKey(id)){
+            providerMap.remove(id);
         }
         else{
             throw new IllegalArgumentException("Provider not found.");
         }
     }
 
-    public void updateProvider(Provider oldProvider, Provider newProvider){
-        if(!providerMap.containsKey(oldProvider.getProviderNumber())){
-            throw new IllegalArgumentException("Provider not found.");
-        }
-        providerMap.remove(oldProvider.getProviderNumber(), oldProvider);
-        providerMap.put(newProvider.getProviderNumber(), newProvider);
-        if(oldProvider.getProviderNumber() != newProvider.getProviderNumber()){
-            providerIds.remove(oldProvider.getProviderNumber());
-            providerIds.add(newProvider.getProviderNumber());
-        }
+    public void updateProvider(Provider newProvider){
+    if(!providerMap.containsKey(newProvider.getProviderNumber())){
+        throw new IllegalArgumentException("Provider not found.");
+    }
+        providerMap.replace(newProvider.getProviderNumber(), newProvider);
     }
 
     public ArrayList<MemberReport> generateAllMemberReports(){
@@ -251,7 +186,7 @@ public class ChocAnSystem {
         Member member = new Member(memberMap.get(memberNumber));
         ArrayList<MemberServiceSummary> memberServiceList = new ArrayList<>();
         for(ServiceRecord serviceRecord : serviceRecordList){
-            if(memberNumber == serviceRecord.getMemberNumber()){
+            if(memberNumber.equals(serviceRecord.getMemberNumber())){
                 String serviceCode = serviceRecord.getServiceCode();
                 String providerNumber = serviceRecord.getProviderNumber();
 
@@ -272,7 +207,7 @@ public class ChocAnSystem {
         int totalConsultations = 0;
         double totalFee = 0;
         for(ServiceRecord serviceRecord : serviceRecordList){
-            if(providerNumber == serviceRecord.getProviderNumber()){
+            if(providerNumber.equals(serviceRecord.getProviderNumber())){
                 String dateOfService = serviceRecord.getDateOfService();
                 String dateTimeReceived = serviceRecord.getCurrDateAndTime();
                 String memberNumber = serviceRecord.getMemberNumber();
@@ -341,10 +276,10 @@ public class ChocAnSystem {
                 ServiceRecord sr = new ServiceRecord(
                     a[0],
                     a[1],
-                    a[2],            // providerNumber
-                    a[3],            // memberNumber
-                    a[4],            // serviceCode
-                    a[5]             // comments
+                    a[2],            
+                    a[3],            
+                    a[4],            
+                    a[5]             
                 );
 
                 list.add(sr);
@@ -367,10 +302,10 @@ public class ChocAnSystem {
                 bw.write(String.join("|",
                     m.getMemberNumber(),
                     m.getName(),
-                    m.getAddress(),
                     m.getCity(),
-                    m.getState(),
-                    m.getZipCode()
+                    m.getAddress(),
+                    m.getZipCode(),
+                    m.getState()
                 ));
                 bw.newLine();
             }
@@ -383,10 +318,10 @@ public class ChocAnSystem {
                 bw.write(String.join("|",
                     p.getProviderNumber(),
                     p.getName(),
-                    p.getAddress(),
                     p.getCity(),
-                    p.getState(),
-                    p.getZipCode()
+                    p.getAddress(),
+                    p.getZipCode(),
+                    p.getState()
                 ));
                 bw.newLine();
             }

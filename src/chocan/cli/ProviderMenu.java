@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
 
 import chocan.model.ProviderDirectory;
 import chocan.service.ChocAnSystem;
-//Grayson
+//Grayson Rucker
 public class ProviderMenu {
     private final ChocAnSystem system;
     String providerNumber;
@@ -138,6 +138,7 @@ public class ProviderMenu {
             break;
             case ("D"):
                 requestProviderDirectory();
+                System.out.println("Provider directory written as text file under /data");
             break;
             case("exit"):
                 return;

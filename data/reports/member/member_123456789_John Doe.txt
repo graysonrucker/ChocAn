@@ -2,13 +2,17 @@ Member Report
 ==========================
 Member Name:     John Doe
 Member Number:   123456789
-Address:         Tuscaloosa
-City:            abc
+Address:         244 East Drive
+City:            Northport
 State:           AL
-ZIP Code:        35451
+ZIP Code:        24143
 
 Services Received:
 --------------------------
+
+Date of Service:   12-02-2025
+Provider Name:     Jane Doe
+Service Name:      Physical Therapy
 
 ==========================
 End of Member Report

@@ -1,3 +1,4 @@
-333444555|Susan Clark|Huntsville|gtr|AL|35801
-111222333|Alice Brown|Tuscaloosa|fwe|AL|35401
-222333444|Mark Wilson|Birmingham|wef|AL|35203
+333444555|Susan Clark|gtr|Huntsville|13523|AL
+987654321|Jane Doe|Northport|432 West Drive|24143|AL
+111222333|Alice Brown|fwe|Tuscaloosa|24523|AL
+222333444|Mark Wilson|wef|Birmingham|35203|AL
