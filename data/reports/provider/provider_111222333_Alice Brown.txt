@@ -1,0 +1,14 @@
+Provider Report
+==========================
+Provider Name:   Alice Brown
+Provider Number: 111222333
+Address:         Tuscaloosa
+City:            fwe
+State:           AL
+ZIP Code:        35401
+
+Services Provided:
+--------------------------
+
+==========================
+End of Provider Report

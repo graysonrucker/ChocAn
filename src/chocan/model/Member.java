@@ -107,15 +107,13 @@ public class Member {
     }
 
     private void isValidName(String name, int maxLength){
-        if(name == null || name.length() > maxLength
-            || !name.chars().allMatch(Character::isAlphabetic)){
+        if(name == null || name.length() > maxLength){
             throw new IllegalArgumentException("Invalid member name.");
         }
     }
 
     private void isValidCity(String city, int maxLength){
-        if(city == null || city.length() > maxLength
-            || !city.chars().allMatch(Character::isAlphabetic)){
+        if(city == null || city.length() > maxLength){
                 throw new IllegalArgumentException("Invalid member city.");
         }
     }
@@ -127,7 +125,7 @@ public class Member {
     }
 
     private void isValidZipCode(String zipCode, int requiredLength){
-        if(zipCode == null || zipCode.length() > requiredLength
+        if(zipCode == null || zipCode.length() != requiredLength
             || !zipCode.chars().allMatch(Character::isDigit)){
             throw new IllegalArgumentException("Invalid member zipcode.");
         }

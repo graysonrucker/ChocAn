@@ -1,0 +1,15 @@
+Weekly Summary Report
+=============================
+
+Provider Name:      Alice Brown
+Provider Number:    111222333
+Total Services:     1
+Total Fees:         $150.0
+
+-----------------------------
+Total Providers: 1
+Total Services:  1
+Overall Fees:    $150.0
+-----------------------------
+
+End of Summary Report

@@ -8,8 +8,59 @@ import chocan.model.*;
 import chocan.report.*;
 //Grayson
 public class ChocAnSystem {
-    private HashMap<String, Member> memberMap = new HashMap<>();
-    private HashMap<String, Provider> providerMap = new HashMap<>();
+    private HashMap<String, Member> memberMap = new HashMap<>() {{
+            put("123456789", new Member(
+                    "123456789",
+                    "John Doe",
+                    "abc",
+                    "Tuscaloosa",
+                    "35451",
+                    "AL"
+                    
+            ));
+            put("987654321", new Member(
+                    "987654321",
+                    "Jane Smith",
+                    "bcd",
+                    "Birmingham",
+                    "35203",
+                    "AL"
+            ));
+            put("555666777", new Member(
+                    "555666777",
+                    "Bob Johnson",
+                    "cde",
+                    "Huntsville",
+                    "35232",
+                    "AL"
+            ));
+        }};
+    private HashMap<String, Provider> providerMap = new HashMap<>() {{
+        put("111222333", new Provider(
+                "111222333",
+                "Alice Brown",
+                "fwe",
+                "Tuscaloosa",
+                "35401",
+                "AL"
+        ));
+        put("222333444", new Provider(
+                "222333444",
+                "Mark Wilson",
+                "wef",
+                "Birmingham",
+                "35203",
+                "AL"
+        ));
+        put("333444555", new Provider(
+                "333444555",
+                "Susan Clark",
+                "gtr",
+                "Huntsville",
+                "35801",
+                "AL"
+        ));
+    }};
     private static final Map<String, String> operatorLogins = Map.of(
         "admin123", "Operator1",
         "prov555",  "Operator2",

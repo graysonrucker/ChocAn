@@ -1,5 +1,9 @@
 package chocan.model;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -58,5 +62,16 @@ public final class ProviderDirectory {
 
     public static ArrayList<Service> getAllServices(){
         return new ArrayList<>(SERVICES.values());
+    }
+
+    public static void writeProviderDirectory(Path directory) throws IOException{
+        String fileName = "provider_directory.txt";
+        Path file = directory.resolve(fileName);
+        ArrayList<Service> services = getAllServices();
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(file))) {
+            for(Service service : services){
+                writer.println(service.getCode() + "\t" + service.getName() + "\t" + service.getFee());
+            }
+        }
     }
 }

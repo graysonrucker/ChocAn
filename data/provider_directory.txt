@@ -1,0 +1,2 @@
+234567	Dental	90.0
+123456	Physical Therapy	150.0
