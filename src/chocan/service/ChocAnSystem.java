@@ -1,12 +1,15 @@
 package chocan.service;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import chocan.model.*;
 import chocan.report.*;
-//Grayson
+
 public class ChocAnSystem {
     private HashMap<String, Member> memberMap = new HashMap<>();
     private HashMap<String, Provider> providerMap = new HashMap<>();
@@ -14,7 +17,7 @@ public class ChocAnSystem {
         "admin123", "Operator1",
         "prov555",  "Operator2",
         "testpass", "Operator3");
-    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager");
+    private static final Map<String, String> managerLogins = Map.of("angrychair", "manager" );
     private ArrayList<String> providerIds = new ArrayList<>();
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
     
@@ -26,14 +29,14 @@ public class ChocAnSystem {
     }
 
     public boolean verifyOperator(String username, String password){
-        if(operatorLogins.get(password).equals(username)){
+        if(operatorLogins.get(password) == username){
             return true;
         }
         return false;
     }
 
     public boolean verifyManager(String username, String password){
-        if(managerLogins.get(password).equals(username)){
+        if(managerLogins.get(password) == username){
             return true;
         }
         return false;
@@ -47,8 +50,8 @@ public class ChocAnSystem {
     }
 
     public void addServiceRecord(String currDateAndTime, String dateOfService, String providerNumber,
-                            String memberNumber, String serviceCode, String comment){
-        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode, comment);
+                            String memberNumber, String serviceCode){
+        ServiceRecord newServiceRecord = new ServiceRecord(currDateAndTime, dateOfService, providerNumber, memberNumber, serviceCode);
         serviceRecordList.add(newServiceRecord);
     }
 
@@ -65,10 +68,9 @@ public class ChocAnSystem {
         memberMap.put(id, member);
     }
 
-    public void deleteMember(Member member){
-        String id = member.getMemberNumber();
-        if(memberMap.containsKey(member.getMemberNumber())){
-            memberMap.remove(id, member);
+    public void deleteMember(String id ){
+        if(memberMap.containsKey(id)){
+            memberMap.remove(id);
         }
         else{
             throw new IllegalArgumentException("Member not found.");
@@ -92,10 +94,9 @@ public class ChocAnSystem {
         providerIds.add(id);
     }
 
-    public void deleteProvider(Provider provider){
-        String id = provider.getProviderNumber();
-        if(providerMap.containsKey(provider.getProviderNumber())){
-            providerMap.remove(id, provider);
+    public void deleteProvider(String id){
+        if(providerMap.containsKey(id)){
+            providerMap.remove(id);
             providerIds.remove(id);
         }
         else{
@@ -210,7 +211,7 @@ public class ChocAnSystem {
     private ProviderReport generateProviderReport(String providerNumber){
         Provider provider = new Provider(providerMap.get(providerNumber));
         ArrayList<ProviderServiceSummary> providerServiceList = new ArrayList<>();
-        int totalConsultations = 0;
+        int totalConsulations = 0;
         double totalFee = 0;
         for(ServiceRecord serviceRecord : serviceRecordList){
             if(providerNumber == serviceRecord.getProviderNumber()){
@@ -221,7 +222,7 @@ public class ChocAnSystem {
                 String serviceCode = serviceRecord.getServiceCode();
                 double fee = ProviderDirectory.getFeeByCode(serviceCode);
 
-                totalConsultations++;
+                totalConsulations++;
                 totalFee += fee;
 
                 ProviderServiceSummary providerServiceSummary = new ProviderServiceSummary(dateOfService, dateTimeReceived, memberName, memberNumber, serviceCode, fee);
@@ -229,6 +230,23 @@ public class ChocAnSystem {
             }
         }
 
-        return new ProviderReport(provider, providerServiceList, totalConsultations, totalFee);
+        return new ProviderReport(provider, providerServiceList, totalConsulations, totalFee);
+    }
+
+    public static HashMap<String, Member> loadMembersFromFile(String filepath)
+            throws IOException, ClassNotFoundException {
+
+        try (ObjectInputStream in =
+                     new ObjectInputStream(new FileInputStream(filepath))) {
+            return (HashMap<String, Member>) in.readObject();
+        }
+    }
+    public static HashMap<String, Provider> loadProvidersFromFile(String filepath)
+            throws IOException, ClassNotFoundException {
+
+        try (ObjectInputStream in =
+                     new ObjectInputStream(new FileInputStream(filepath))) {
+            return (HashMap<String, Provider>) in.readObject();
+        }
     }
 }
