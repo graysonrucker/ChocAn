@@ -34,15 +34,15 @@ public class ProviderMenu {
         DateTimeFormatter currDateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String command = "";
-        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        mainLoop:
         while(!command.equals("exit")){
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            if(command.equals("exit")){
-                return;
-            }
+            
+            
 
             System.out.println("Enter (M) to validate a member, (D) to request provider directory, or <exit> to logout");
             command = br.readLine();
+            
             switch(command){
             case ("M"):
                 while(!command.equals("exit")){
@@ -53,6 +53,7 @@ public class ProviderMenu {
                     if(command.equals("cancel")){
                         break;
                     }
+
                     
                     if(!system.validateMember(command)) {
                         System.out.println("Member number is Invalid, please try again.");         
@@ -133,7 +134,7 @@ public class ProviderMenu {
                                 break;
                             default:
                                 if(command.equals("exit")){
-                                    return;
+                                    break mainLoop;
                                 }
                                 System.out.println("Unrecognized command, returning to member validation process.");
                                 break;
@@ -146,12 +147,14 @@ public class ProviderMenu {
                 System.out.println("Provider directory written as text file under /data");
             break;
             case("exit"):
-                return;
+                break mainLoop;
             default:
                 System.out.println("Unrecognized command.");
                 break;
             }
-            
+            if(command.equals("exit")){
+                break mainLoop;
+            }
         }
     }
     
