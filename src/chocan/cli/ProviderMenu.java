@@ -34,20 +34,25 @@ public class ProviderMenu {
         DateTimeFormatter currDateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String command = "";
-        String exit = "exit";
-        while(!command.equals(exit)){
+        
+        while(!command.equals("exit")){
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            if(command.equals("exit")){
+                return;
+            }
+
             System.out.println("Enter (M) to validate a member, (D) to request provider directory, or <exit> to logout");
             command = br.readLine();
             switch(command){
             case ("M"):
-                outerLoop:
-                while(!command.equals(exit)){
+                while(!command.equals("exit")){
                     
-                    System.out.println("Please enter member number (or type <exit> to cancel)");
+                    System.out.println("Please enter member number (or type <cancel> to abort)");
                     command = br.readLine();
 
-                    if(command.equals(exit))
+                    if(command.equals("cancel")){
+                        break;
+                    }
                     
                     if(!system.validateMember(command)) {
                         System.out.println("Member number is Invalid, please try again.");         
@@ -128,7 +133,7 @@ public class ProviderMenu {
                                 break;
                             default:
                                 if(command.equals("exit")){
-                                    break outerLoop;
+                                    return;
                                 }
                                 System.out.println("Unrecognized command, returning to member validation process.");
                                 break;

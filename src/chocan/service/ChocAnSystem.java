@@ -17,8 +17,8 @@ public class ChocAnSystem {
     private HashMap<String, Provider> providerMap = new HashMap<>();
     private static final Map<String, String> operatorLogins = Map.of(
         "admin123", "Operator1",
-        "prov555",  "Operator2",
-        "testpass", "Operator3");
+        "admin234",  "Operator2",
+        "admin345", "Operator3");
     private static final Map<String, String> managerLogins = Map.of("password123", "manager");
     private ArrayList<ServiceRecord> serviceRecordList = new ArrayList<>();
     
@@ -30,6 +30,13 @@ public class ChocAnSystem {
     }
 
     public boolean verifyOperator(String username, String password){
+        try {
+            if(operatorLogins.get(password).equals(username)){
+            return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
         if(operatorLogins.get(password).equals(username)){
             return true;
         }
@@ -37,9 +44,14 @@ public class ChocAnSystem {
     }
 
     public boolean verifyManager(String username, String password){
-        if(managerLogins.get(password).equals(username)){
+        try {
+            if(managerLogins.get(password).equals(username)){
             return true;
+            }
+        } catch (Exception e) {
+            return false;
         }
+        
         return false;
     }
 
